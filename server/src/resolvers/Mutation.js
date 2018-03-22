@@ -12,14 +12,19 @@ function post(parent, { url, description }, ctx, info) {
   });
 }
 
+// signup resolver
 async function signup(parent, args, ctx, info) {
+  // hash the password using bcrypt lib
   const password = await bcrypt.hash(args.password, 10);
+  // create user with the data provided as args.
   const user = await ctx.db.mutation.createUser({
     data: { ...args, password }
   });
 
+  // get the token using jwt
   const token = jwt.sign({ userId: user.id }, APP_SECRET);
 
+  // return the token and the newly created user.
   return {
     token,
     user

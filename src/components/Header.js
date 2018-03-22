@@ -6,6 +6,8 @@ import { AUTH_TOKEN } from '../constants';
 
 class Header extends Component {
   render() {
+    // get the authtoken from the local storage
+    // this will be needed to check if the user is authenticated
     const authToken = localStorage.getItem(AUTH_TOKEN);
 
     return (
@@ -46,4 +48,5 @@ class Header extends Component {
   }
 }
 
+// export this component withRouter as we are using it for routing
 export default withRouter(Header);

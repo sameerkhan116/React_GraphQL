@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Link from './Link';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+
+import Link from './Link';
 
 class LinkList extends Component {
   render() {
@@ -21,6 +22,8 @@ class LinkList extends Component {
   }
 }
 
+// Creating a graphql query
+// we write the query inside gql``
 const FEED_QUERY = gql`
   # 2 - GraphQL comment
   query FeedQuery {
@@ -35,4 +38,6 @@ const FEED_QUERY = gql`
   }
 `;
 
+// to get the query results, we wrap curry the component with graphql tags.
+// graphql takes the name of the query amd the name that the props should have.
 export default graphql(FEED_QUERY, { name: 'feedQuery' })(LinkList);

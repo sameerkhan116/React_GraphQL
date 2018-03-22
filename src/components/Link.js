@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 export default class Link extends Component {
+  // voting for a link.
   _voteForLink = async () => {
     // TODO
   };

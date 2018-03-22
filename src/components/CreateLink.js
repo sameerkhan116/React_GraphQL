@@ -11,14 +11,19 @@ class CreateLink extends Component {
     };
   }
 
+  // function to create a link (will be async)
   _createLink = async () => {
+    // get the description and url which have been set as state
     const { description, url } = this.state;
+    // since postMutation is available as props, we await that.
+    // then set the variables for this props to be the description and url from user input
     await this.props.postMutation({
       variables: {
         description,
         url
       }
     });
+    // redirect to '/'
     this.props.history.push('/');
   };
 
@@ -47,8 +52,9 @@ class CreateLink extends Component {
   }
 }
 
+// an example of a graphql mutation
 const POST_MUTATION = gql`
-  # Another comment
+  # GraphQl mutations take a name and get the value they need in parentheses with a '$' prefix
   mutation PostMutation($description: String!, $url: String!) {
     post(description: $description, url: $url) {
       id

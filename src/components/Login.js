@@ -15,18 +15,26 @@ class Login extends Component {
     };
   }
 
+  // the confirm async function.
   _confirm = async () => {
+    // get email, password and name from the state (input by the user)
     const { email, password, name } = this.state;
+    // if the current state is login needed
     if (this.state.login) {
+      // set a var result that is the value of
+      // this.props.loginMutation with the email and password variables
       const result = await this.props.loginMutation({
         variables: {
           email,
           password
         }
       });
+      // we get the token the from result.data.login
       const { token } = result.data.login;
+      // we then save the token received
       this._saveUserData(token);
     } else {
+      // if the state is not login set the signupMutation with the variables
       const result = await this.props.signupMutation({
         variables: {
           name,
@@ -34,12 +42,16 @@ class Login extends Component {
           password
         }
       });
+      // the token is obtained from the result.data.signup
       const { token } = result.data.signup;
+      // save the user data
       this._saveUserData(token);
     }
+    // redirect the user to home page
     this.props.history.push('/');
   };
 
+  // saveuserdata function that sets AUTH_TOKEN to the token that's generated
   _saveUserData = token => {
     localStorage.setItem(AUTH_TOKEN, token);
   };
@@ -104,6 +116,7 @@ const LOGIN_MUTATION = gql`
   }
 `;
 
+// when there are multiple graphql queries/mutations we use the compose function from react-apollo
 export default compose(
   graphql(SIGNUP_MUTATION, { name: 'signupMutation' }),
   graphql(LOGIN_MUTATION, { name: 'loginMutation' })

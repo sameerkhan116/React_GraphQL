@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import '../styles/App.css';
 import { Switch, Route } from 'react-router-dom';
+
+import '../styles/App.css';
+
 import Header from './Header';
 import LinkList from './LinkList';
 import CreateLink from './CreateLink';

@@ -8,6 +8,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import './styles/index.css';
+
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 import { AUTH_TOKEN } from './constants';
