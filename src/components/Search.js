@@ -13,6 +13,10 @@ class Search extends Component {
     };
   }
 
+  // the execute search function gets the filter criteria from state
+  // it then calls the query on the client props which we got by using withApollo
+  // set the links as the links obtained after running this query.
+  // set the current links in state to these links.
   _executeSearch = async () => {
     const { filter } = this.state;
     const result = await this.props.client.query({
@@ -41,6 +45,7 @@ class Search extends Component {
   }
 }
 
+// this query is almost the same as feed in LinkList component except we are also adding a filter
 const FEED_SEARCH_QUERY = gql`
   query FeedSearchQuery($filter: String!) {
     feed(filter: $filter) {
