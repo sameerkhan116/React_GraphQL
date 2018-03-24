@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import { FEED_QUERY } from './LinkList';
+
 class CreateLink extends Component {
   constructor(props) {
     super(props);
@@ -17,10 +19,23 @@ class CreateLink extends Component {
     const { description, url } = this.state;
     // since postMutation is available as props, we await that.
     // then set the variables for this props to be the description and url from user input
+    // after the variables are set update the store
+    // update: { store, { data: { post }}} => {
+    // get data from the store
+    // manipulate it as needed
+    // write back to store with query and data
     await this.props.postMutation({
       variables: {
         description,
         url
+      },
+      update: (store, { data: { post } }) => {
+        const data = store.readQuery({ query: FEED_QUERY });
+        data.feed.links.splice(0, 0, post);
+        store.writeQuery({
+          query: FEED_QUERY,
+          data
+        });
       }
     });
     // redirect to '/'
