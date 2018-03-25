@@ -36,6 +36,7 @@ class Link extends Component {
           <span className="gray">{this.props.index + 1}.</span>
           {authToken && (
             <div className="ml1 gray fl1" onClick={() => this._voteForLink()}>
+              {/* eslint-disable-next-line */}
               🔺
             </div>
           )}

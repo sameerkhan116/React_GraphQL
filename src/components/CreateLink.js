@@ -3,6 +3,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import { FEED_QUERY } from './LinkList';
+import { LINKS_PER_PAGE } from '../constants';
 
 class CreateLink extends Component {
   constructor(props) {
@@ -14,32 +15,39 @@ class CreateLink extends Component {
   }
 
   // function to create a link (will be async)
+  /* 
+    Get description and url from state.
+    pass these variables to postMutation in props
+    update the store with the data, first = links_per_page, skip = 0, orderBy = most recent
+    get data by store.readQuery, passing it the query and variables
+    write data to store by passing it query, data and variables
+  */
   _createLink = async () => {
-    // get the description and url which have been set as state
     const { description, url } = this.state;
-    // since postMutation is available as props, we await that.
-    // then set the variables for this props to be the description and url from user input
-    // after the variables are set update the store
-    // update: { store, { data: { post }}} => {
-    // get data from the store
-    // manipulate it as needed
-    // write back to store with query and data
     await this.props.postMutation({
       variables: {
         description,
         url
       },
       update: (store, { data: { post } }) => {
-        const data = store.readQuery({ query: FEED_QUERY });
+        const first = LINKS_PER_PAGE;
+        const skip = 0;
+        const orderBy = 'createdAt_DESC';
+        const data = store.readQuery({
+          query: FEED_QUERY,
+          variables: { first, skip, orderBy }
+        });
         data.feed.links.splice(0, 0, post);
+        data.feed.links.pop();
         store.writeQuery({
           query: FEED_QUERY,
-          data
+          data,
+          variables: { first, skip, orderBy }
         });
       }
     });
-    // redirect to '/'
-    this.props.history.push('/');
+    // redirect to '/new/1'
+    this.props.history.push('/new/1');
   };
 
   render() {
